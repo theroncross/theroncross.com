@@ -1,17 +1,9 @@
 import React from 'react'
 import { Container } from 'react-responsive-grid'
-import { Link } from 'react-router'
-import { prefixLink } from 'gatsby-helpers'
-import Headroom from 'react-headroom'
 
 import { rhythm } from 'utils/typography'
-// import icons from 'simple-line-icons/css/simple-line-icons.css'
-// import fontello from '../css/fontello.css';
-
-// import { Header } from '../components/Header.jsx'
 
 import '../less/site.less'
-// import '../css/stripes.css';
 
 module.exports = React.createClass({
   propTypes () {
@@ -36,12 +28,11 @@ module.exports = React.createClass({
     ga('require', 'linkid')
     ga('send', 'pageview')
   },
+
   render () {
     return (
       <div className="site-container">
-
         {this.props.children}
-
       </div>
     )
   },

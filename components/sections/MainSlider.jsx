@@ -1,18 +1,17 @@
 import React from 'react'
 
 var _ = require('lodash');
-import {Section} from '../Section';
+import { Section } from '../Section';
 
-export class MainSlider extends React.Component{
+class MainSlider extends React.Component{
   constructor(props){
     super(props);
-
   }
 
-  render(){
+  render() {
     var styles = _.cloneDeep(this.constructor.styles);
 
-    if(this.props.windowWidth<800){
+    if(this.props.windowWidth < 800) {
       styles.headMetaBox.textAlign = 'center';
       styles.headMetaBox.width = 'auto';
       styles.headMetaBox.marginLeft = 'auto';
@@ -23,27 +22,35 @@ export class MainSlider extends React.Component{
       styles.headMeta.transform = 'translate(-50%,0)';
     }
 
-    return(<Section
-      {...this.props}
-
-      >
-      <div style={{...styles.container,
-       minHeight:this.props.windowHeight}}>
-      <div style={styles.overContainer} />
-      <div style={styles.headMeta}>
-        <div style={styles.headMetaBox} className='main_heading'>
-        <h1 style={{fontSize:'2em', lineHeight: '2.60rem',color:'white', marginBottom:0}}
-          dangerouslySetInnerHTML={{__html:this.props.headline}}></h1>
-        <div dangerouslySetInnerHTML={{__html:this.props.body}}
-             style={{fontSize:'1.2em', lineHeight:'1.2em', color:'white'}} />
-      </div>
-      </div>
-      </div>
-
-
-    </Section>)
+    return(
+      <Section {...this.props}>
+        <div style={{...styles.container, minHeight:this.props.windowHeight}}
+        >
+          <div style={styles.overContainer} />
+          <div style={styles.headMeta}>
+            <div
+              style={styles.headMetaBox}
+              className='main_heading'
+            >
+              <h1
+                style={{fontSize:'2em', lineHeight: '2.60rem',color:'white', marginBottom:0}}
+                dangerouslySetInnerHTML={{__html:this.props.headline}}
+              >
+              </h1>
+              <div
+                dangerouslySetInnerHTML={{__html:this.props.body}}
+                style={{fontSize:'1.2em', lineHeight:'1.2em', color:'white'}}
+              />
+            </div>
+          </div>
+        </div>
+      </Section>
+    )
   }
 }
+
+export default MainSlider
+
 MainSlider.styles = {
   container:{
     position: 'relative',

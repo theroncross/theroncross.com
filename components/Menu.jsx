@@ -7,7 +7,7 @@ import { Motion, spring, presets } from 'react-motion';
 
 import { Navigator } from '../utils/navigator.js';
 
-export class Menu extends React.Component{
+class Menu extends React.Component{
   constructor(props){
     super(props);
 
@@ -16,7 +16,7 @@ export class Menu extends React.Component{
     }
   }
 
-  toggleMenu(){
+  toggleMenu() {
     if(this.props.closeSection) {
       this.props.onCloseSectionClick && this.props.onCloseSectionClick();
     } else {
@@ -100,6 +100,8 @@ export class Menu extends React.Component{
     )
   }
 }
+
+export default Menu
 
 Menu.propTypes = {
   closeSection: React.PropTypes.bool

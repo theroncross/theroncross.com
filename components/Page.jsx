@@ -1,13 +1,19 @@
 import React from 'react';
 
-const Page = props => {
-  return (
-    <div className="page">
-      <div dangerouslySetInnerHTML={{ __html: props.HTMLContent }}></div>
-      {props.children}
-    </div>
-  );
-};
+class Page extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+
+  render() {
+    return (
+      <div className="page">
+        <div dangerouslySetInnerHTML={{ __html: props.HTMLContent }}></div>
+        {this.props.children}
+      </div>
+    )
+  }
+}
 
 export default Page;
 

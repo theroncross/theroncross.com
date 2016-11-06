@@ -1,11 +1,15 @@
 import React from 'react';
-import { Section } from '../Section.jsx';
-import { SideBlock } from '../SideBlock.jsx';
+import Section from '../Section.jsx';
+import SideBlock from '../SideBlock.jsx';
 
 var _ = require('lodash');
 import 'whatwg-fetch';
 
 class StoryMeta extends React.Component{
+  constructor(props) {
+    super(props)
+  }
+
   render() {
     const styles = _.cloneDeep(this.constructor.styles);
     return (
@@ -31,6 +35,8 @@ class StoryMeta extends React.Component{
     )
   }
 }
+
+export default StoryMeta
 
 StoryMeta.styles = {
   boundingBox:{

@@ -1,25 +1,14 @@
 import React from 'react'
 import _ from 'lodash'
 import access from 'safe-access'
-import { Menu } from '../components/Menu.jsx'
+import Menu from '../components/Menu.jsx'
 import { MainSlider, ProjectList, AboutMe, Contact, Medium, Footer } from '../components/sections'
 
 import { Navigator } from '../utils/navigator.js'
 import mobilecheck from '../utils/mobilecheck.js'
-// Styles for highlighted code blocks.
 import 'css/zenburn.css'
 
-/*
-#f9ffa2,
-#aafd6d 600px,
-#00e2c5 900px,
-#00a7a8 1200px,
-#312633 1500px,
-#ff6b6b 1800px,
-#ffffff 2100px
-*/
-
-export default class Index extends React.Component {
+class Index extends React.Component {
   constructor (props) {
     super(props)
 
@@ -28,15 +17,14 @@ export default class Index extends React.Component {
     ).reverse()
 
     this.pageGroups = _.groupBy(props.route.pages, 'file.dirname')
-    this.pageGroups.root =
-    _.mapValues(_.groupBy(this.pageGroups[''], 'file.name'), arr => arr[0])
+    this.pageGroups.root = _.mapValues(_.groupBy(this.pageGroups[''], 'file.name'), arr => arr[0])
     delete this.pageGroups['']
+
     this.state = {
       windowWidth: 0,
       windowHeight: 0,
       menuCloseSection: false,
     }
-
 
     this.handleResize = this.handleResize.bind(this)
     this.handleScroll = this.handleScroll.bind(this)
@@ -86,15 +74,15 @@ export default class Index extends React.Component {
     })
   }
 
-  render () {
-    let sitemap = [
+  render() {
+    const sitemap = [
       {
         section: 'home',
         component: <MainSlider
-          { ...this.state }
+          {...this.state}
           className="color-one"
           icon="home"
-          { ...this.pageGroups.root.intro.data }
+          {...this.pageGroups.root.intro.data}
         />,
       },
       {
@@ -102,17 +90,17 @@ export default class Index extends React.Component {
         component: <ProjectList
           icon="energy"
           className="color-two projects"
-          { ...this.state }
-          projects={ this.pageGroups.projects }
-          onProjectOpen={ this.handleSectionOpen.bind(this) }
+          {...this.state}
+          projects={this.pageGroups.projects}
+          onProjectOpen={this.handleSectionOpen.bind(this)}
         />,
       },
       {
         section: 'about-me',
         component: <AboutMe
           className="color-three about"
-          { ...this.state }
-          { ...this.pageGroups.root.about_me.data}
+          {...this.state}
+          {...this.pageGroups.root.about_me.data}
         />,
       },
       {
@@ -120,15 +108,15 @@ export default class Index extends React.Component {
         component: <Medium
           icon="book-open"
           className="color-four"
-          { ...this.state }
+          {...this.state}
         />,
       },
       {
         section: 'contact',
         component: <Contact
           className="color-five contact"
-          { ...this.state }
-          { ...this.pageGroups.root.contact.data}
+          {...this.state}
+          {...this.pageGroups.root.contact.data}
           icon="envelope"
         />,
       },
@@ -139,8 +127,8 @@ export default class Index extends React.Component {
     return (
       <div style={{ position: 'relative' }}>
         <Menu sections={sitemap} />
-        { sitemap.map(item => {
-          const el = React.cloneElement(item.component, {
+        {sitemap.map(item => {
+          const el = React.createElement(item.component, {
             key: item.section,
             section_name: item.section,
             ref: item.section,
@@ -149,9 +137,11 @@ export default class Index extends React.Component {
         })}
         <Footer
           className="color-six footer"
-          { ...this.state }
+          {...this.state}
         />
       </div>
     )
   }
 }
+
+export default Index

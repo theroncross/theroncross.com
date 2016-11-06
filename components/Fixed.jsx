@@ -2,17 +2,19 @@ import React from 'react';
 import access from 'safe-access';
 var _ = require('lodash');
 
-export class Fixed extends React.Component{
+class Fixed extends React.Component{
   constructor(props){
     super(props);
-
   }
-  render(){
+
+  render() {
     var styles = _.cloneDeep(this.constructor.styles);
 
     return(<div style={styles.container}>{this.props.children}</div>)
   }
 }
+
+export default Fixed
 
 Fixed.styles = {
   container:{

@@ -8,7 +8,6 @@ import velocityHelpers from 'velocity-react/velocity-helpers';
 class Section extends React.Component {
   constructor(props) {
     super(props);
-
   }
 
   fixedColumn = this.props.fixed_column;
@@ -20,8 +19,7 @@ class Section extends React.Component {
   }
 
   componentWillUpdate() {
-    var node = ReactDOM.findDOMNode(this);
-
+    const node = ReactDOM.findDOMNode(this);
     this.elementBox = node.getBoundingClientRect();
     this.elementHeight = node.clientHeight;
 
@@ -36,7 +34,9 @@ class Section extends React.Component {
     const styles = _.cloneDeep(this.constructor.styles);
     const isSmallScreen = this.props.windowWidth < 800;
 
-    if(this.props.scollableBgColor) styles.scrollable.backgroundColor = this.props.scollableBgColor;
+    if(this.props.scollableBgColor) {
+      styles.scrollable.backgroundColor = this.props.scollableBgColor;
+    }
     styles.scrollable.minHeight = this.props.windowHeight;
 
     //traditional classnames
@@ -80,25 +80,7 @@ class Section extends React.Component {
   }
 }
 
-export default Section;
-
-// Section.animations = {
-//   open: pos => {
-//     velocityHelpers.registerEffect({
-//       defaultDuration: 750,
-//       calls: [
-//         [{
-//           translateX: buttonPosition.left,
-//           translateY: buttonPosition.top
-//         }],
-//         [{
-//           translateX: buttonPosition.left,
-//           translateY: '180px'
-//         }]
-//       ]
-//     })
-//   }
-// }
+export default Section
 
 Section.styles = {
   container: {

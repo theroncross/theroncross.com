@@ -1,4 +1,4 @@
-let smooth = {
+const smooth = {
   /*
   * https://github.com/oblador/angular-scroll (duScrollDefaultEasing)
   */
@@ -17,18 +17,20 @@ import S from 'string';
 
 
 
-class ScrollHelper{
+class ScrollHelper {
   constructor(){
     this.timeLapsed = 0;
     this.duration = 1000;
     this.interval = 16;
   }
+
   startAnimateScroll (endLocation, endCb) {
     clearInterval(this.animationInterval);
     this.timeLapsed = 0;
     this.startLocation =window.pageYOffset;
     this.animationInterval = setInterval(this.loopAnimateScroll(endLocation,endCb), this.interval);
   }
+
   loopAnimateScroll(endLocation, cb) {
     let _cb = cb;
     return ()=>{
@@ -60,13 +62,14 @@ class ScrollHelper{
 class Navigator {
   static load(sitemap){
     this.scrollHelper = new ScrollHelper();
-
   }
+
   static genId(arr){
     return arr.map((item)=>{
       return S(item).slugify().s
     }).join('-');
   }
+
   static genURL(section_name, subsection=""){
     let url = '#'+(S(section_name).slugify().s);
     if(subsection){
@@ -80,14 +83,13 @@ class Navigator {
     history.replaceState(null, null, urlId);
     return urlId;
   }
+
   static goToHash(timeout, exclude){
     let _hash = window.location.hash.substr(1);
     if(exclude.indexOf(_hash)!==-1) return;
     setTimeout(()=>{
       Navigator.scrollTo(_hash);
     }, timeout)
-
-
   }
 
   static scrollTo(section_name){
@@ -99,13 +101,7 @@ class Navigator {
                         + 1;
       this.scrollHelper.startAnimateScroll(endlocation, resolve);
     });
-
-
-
-    //window.scroll(0,document.getElementById(section_name).offsetTop)
-
   }
-
 }
 
 export { Navigator };

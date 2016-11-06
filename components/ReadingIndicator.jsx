@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 var _ = require('lodash');
 import velocityHelpers from 'velocity-react/velocity-helpers';
 
-export class ReadingIndicator extends React.Component{
+class ReadingIndicator extends React.Component{
   render(){
     var styles = _.cloneDeep(this.constructor.styles);
 
@@ -22,6 +22,8 @@ export class ReadingIndicator extends React.Component{
     );
   }
 }
+
+export default ReadingIndicator
 
 ReadingIndicator.styles = {
   readingIndicator:{

@@ -5,6 +5,10 @@ import { Section } from '../Section.jsx'
 import { SideBlock } from '../SideBlock.jsx';
 
 class AboutMe extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+
   render() {
     const h = this.props.scrollTop % 360;
     return(
