@@ -5,7 +5,7 @@ import SideBlock from '../SideBlock.jsx';
 var _ = require('lodash');
 import 'whatwg-fetch';
 
-class StoryMeta extends React.Component{
+class StoryMeta extends React.Component {
   constructor(props) {
     super(props)
   }
@@ -14,9 +14,9 @@ class StoryMeta extends React.Component{
     const styles = _.cloneDeep(this.constructor.styles);
     return (
       <div>
-        <div style={{...styles.metadata, ...styles.tagLine}}>
+        <div style={{ ...styles.metadata, ...styles.tagLine }}>
           <i className='icon-tag'/>
-          {this.props.post.virtuals.tags.map((tag,i)=>{
+          {this.props.post.virtuals.tags.map((tag,i) => {
             return <span style={{marginLeft:5, marginRight:5}} key={i}>{tag.name}</span>
           })}
         </div>
@@ -35,8 +35,6 @@ class StoryMeta extends React.Component{
     )
   }
 }
-
-export default StoryMeta
 
 StoryMeta.styles = {
   boundingBox:{
@@ -73,10 +71,12 @@ StoryMeta.styles = {
     lineHeight: 1.4
   }
 }
-class Story extends React.Component{
-  constructor(props){
+
+class Story extends React.Component {
+  constructor(props) {
     super(props)
   }
+
   render() {
     var styles = _.cloneDeep(this.constructor.styles);
     return (
@@ -124,7 +124,7 @@ Story.styles = {
   }
 }
 
-export class Medium extends React.Component{
+class Medium extends React.Component{
   constructor(props){
     super(props);
     this.state = {
@@ -134,18 +134,20 @@ export class Medium extends React.Component{
 
   componentDidMount(){
     fetch('https://michaelcereda.com/scrapers/medium.php')
-    .then((res)=>{
+    .then((res) => {
       return res.json();
-    }).
-    then((json_res)=>{
+    })
+    .then((json_res) => {
       this.setState(json_res);
     })
-    .catch(function(ex) {
-    console.log('parsing failed', ex)
-  });
+    .catch(ex => {
+      console.log('parsing failed', ex)
+    });
   }
 
   render(){
+    const { windowHeight, windowWidth, className, section, isSmallScreen, title, subtitle, icon } = this.props
+    const displayName = this.constructor.name
     let stories = this.state.posts.map((post,i)=>{
       return <Story {...post} me={this.state.me} key={i}/>
     });
@@ -165,20 +167,44 @@ export class Medium extends React.Component{
       };
     }
 
-    return(<Section {...this.props}
-      parentName = {this.constructor.displayName || constructor.name || undefined}
-      fixed_column={<SideBlock {...this.props}>
-        <div className='meta-container'>
-          <div><img src='./assets/medium-lockup-white.png' width='50%'/></div>
-          <div className='section-subtitle'>Sometimes i write blogposts<br/>about nerdy stuff</div>
-        </div>
-        </SideBlock>
-      }
-      scollableBgColor='#FAFAFA'
+    return(
+      <Section
+        parentName={displayName}
+        className={`${displayName.toLowerCase()}-section`}
+        fixedColumn={{
+          component: SideBlock,
+          props: {
+            isSmallScreen,
+            icon,
+            subtitle,
+            title,
+            windowHeight,
+            windowWidth,
+          }
+        }}
+        scrollableBgColor='#FAFAFA'
       >
-      <div style={{padding:10, display:'flex', flexDirection:'column', ...storiesContainer}}>
-      { stories }
-      </div>
-    </Section>)
+        <div style={{
+          padding:10,
+          display:'flex',
+          flexDirection:'column',
+          ...storiesContainer
+        }}>
+          { stories }
+        </div>
+      </Section>
+    )
   }
 }
+
+export default Medium
+// <SideBlock
+//   isSmallScreen={isSmallScreen}
+//   windowHeight={windowHeight}
+//   windowWidth={windowWidth}
+// >
+//   <div className='meta-container'>
+//     <div><img src='./assets/medium-lockup-white.png' width='50%'/></div>
+//     <div className='section-subtitle'>Sometimes i write blogposts<br/>about nerdy stuff</div>
+//   </div>
+// </SideBlock>

@@ -8,7 +8,7 @@ class Page extends React.Component {
   render() {
     return (
       <div className="page">
-        <div dangerouslySetInnerHTML={{ __html: props.HTMLContent }}></div>
+        <div dangerouslySetInnerHTML={{ __html: this.props.HTMLContent }}></div>
         {this.props.children}
       </div>
     )

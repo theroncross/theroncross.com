@@ -14,6 +14,8 @@ class Menu extends React.Component{
     this.state = {
       isOpen: false
     }
+
+    this.toggleMenu = this.toggleMenu.bind(this)
   }
 
   toggleMenu() {
@@ -67,7 +69,7 @@ class Menu extends React.Component{
               ...styles.container,
               ...hoverStyle
             }}
-            onClick={this.toggleMenu.bind(this)}
+            onClick={this.toggleMenu}
             onMouseOver={() => {this.setState({ isHover:true })}}
             onMouseOut={() => {this.setState({ isHover:false })}}
           >

@@ -10,12 +10,12 @@ class Footer extends React.Component{
   }
 
   render() {
-    var styles = _.cloneDeep(this.constructor.styles);
-
+    const styles = _.cloneDeep(this.constructor.styles);
+    const displayName = this.constructor.name
     return(
       <Section
-        { ...this.props }
-        parentName = {this.constructor.displayName || constructor.name || undefined}
+        parentName = {displayName}
+        className={`${displayName.toLowerCase()}-section`}
       >
         <Signature
           height={200}

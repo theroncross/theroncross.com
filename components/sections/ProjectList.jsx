@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Navigator } from '../../utils/navigator.js';
 import Project from '../Project.jsx';
 import SVGStylish from '../svg/SVGStylish.jsx';
 import Section from '../Section.jsx';
 import SideBlock from '../SideBlock.jsx';
-import Navigator from '../../utils/navigator.js';
 import Fixed from '../Fixed.jsx';
 var _ = require('lodash');
 
@@ -13,7 +13,7 @@ import stylish from '../../pages/assets/stylish.svg';
 import { slugify } from '../../utils/strings.js'
 
 
-export class ProjectList extends React.Component {
+class ProjectList extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -21,6 +21,10 @@ export class ProjectList extends React.Component {
       currentProject: ''
     };
 
+    this.scrollToSectionTop = this.scrollToSectionTop.bind(this)
+    this.handleSelectProject = this.handleSelectProject.bind(this)
+    this.handleGoToProject = this.handleGoToProject.bind(this)
+    this.handleCloseProject = this.handleCloseProject.bind(this)
   }
 
   scrollToSectionTop() {
@@ -48,9 +52,9 @@ export class ProjectList extends React.Component {
   }
 
   handleCloseProject() {
-    ((window.isMobile)?
-      Navigator.scrollTo(this.state.currentProject.id) :
-      Navigator.scrollTo(this.props.section_name)
+    ((window.isMobile)
+      ? Navigator.scrollTo(this.state.currentProject.id)
+      : Navigator.scrollTo(this.props.sectionName)
     )
     .then(() => {
       this.setState({
@@ -61,8 +65,8 @@ export class ProjectList extends React.Component {
   }
 
   render() {
-    const isSmallScreen = this.windowWidth < 800 || this.props.isSmallScreen;
-
+    const { windowHeight, windowWidth, className, section, isSmallScreen } = this.props
+    const displayName = this.constructor.name
     const opensource = []
     const projects = this.props.projects.map((project, i) => {
       const projectId = Navigator.genId([this.props.section_name,project.data.title]);
@@ -77,7 +81,9 @@ export class ProjectList extends React.Component {
           <span
             style={{ cursor: 'pointer', textDecoration: 'underline'}}
             onClick={this.handleGoToProject.bind(this, projectId)}
-            key={project.data.title+i}>{project.data.title}
+            key={project.data.title+i}
+          >
+            {project.data.title}
           </span>
         )
       }
@@ -110,31 +116,20 @@ export class ProjectList extends React.Component {
 
     return(
       <Section
-        {...this.props}
-        parentName = {this.constructor.displayName || constructor.name || undefined}
-        isOpen={this.state.isProjectSelected}
-        openItem = {this.state.currentProject}
-        fixed_column={
-          <SideBlock {...this.props}>
-            <div>
-              <div><i className="icon-energy" style={{color:'#7fd093'}}/></div>
-              <div className="section-title" >Recent Projects</div>
-              <div className='section-subtitle'>Never Bored<br />Always Inspired</div>
-            </div>
-            {(!this.state.isProjectSelected) ?
-              <div className="section-menu-item">
-                <i className="icon-social-github"/>
-                <div className='inner'>
-                  <div >Curious to see how I code?<br />Check my opensource projects
-                  </div>
-                  <div className='item-anchors'>{opensource}</div>
-                </div>
-              </div> :
-              null
-            }
-          </SideBlock>
-        }
-        onCloseItem={this.handleCloseProject.bind(this)}
+        parentName = {displayName}
+        className={`${displayName.toLowerCase()}-section`}
+        fixedColumn={{
+          component: SideBlock,
+          props: {
+            isSmallScreen,
+            icon,
+            subtitle,
+            title,
+            windowHeight,
+            windowWidth,
+          }
+        }}
+        onCloseItem={this.handleCloseProject}
       >
         <div
           style={{borderBottom:'5px solid #0C1926'}}
@@ -153,3 +148,19 @@ export class ProjectList extends React.Component {
 }
 
 export default ProjectList
+// <div>
+//   <div><i className="icon-energy" style={{color:'#7fd093'}}/></div>
+//   <div className="section-title" >Recent Projects</div>
+//   <div className='section-subtitle'>Never Bored<br />Always Inspired</div>
+// </div>
+// {!this.state.isProjectSelected &&
+//   <div className="section-menu-item">
+//     <i className="icon-social-github"/>
+//     <div className='inner'>
+//       <div >Curious to see how I code?<br />Check my opensource projects</div>
+//       <div className='item-anchors'>
+//         {opensource}
+//       </div>
+//     </div>
+//   </div>
+// }

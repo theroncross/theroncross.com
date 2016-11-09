@@ -24,10 +24,12 @@ class Index extends React.Component {
       windowWidth: 0,
       windowHeight: 0,
       menuCloseSection: false,
+      isSmallScreen: false,
     }
 
     this.handleResize = this.handleResize.bind(this)
     this.handleScroll = this.handleScroll.bind(this)
+    this.handleSectionOpen = this.handleSectionOpen.bind(this)
   }
 
   componentDidMount () {
@@ -36,6 +38,7 @@ class Index extends React.Component {
     this.setState({
       windowWidth: window && window.innerWidth,
       windowHeight: window && window.innerHeight,
+      isSmallScreen: true,
     })
     window.addEventListener('resize', this.handleResize)
     window.addEventListener('scroll', this.handleScroll)
@@ -78,47 +81,53 @@ class Index extends React.Component {
     const sitemap = [
       {
         section: 'home',
-        component: <MainSlider
-          {...this.state}
-          className="color-one"
-          icon="home"
-          {...this.pageGroups.root.intro.data}
-        />,
+        component: MainSlider,
+        props: {
+          ...this.state,
+          ...this.pageGroups.root.intro.data,
+          className: 'color-one home',
+          icon: 'home',
+        },
       },
       {
         section: 'projects',
-        component: <ProjectList
-          icon="energy"
-          className="color-two projects"
-          {...this.state}
-          projects={this.pageGroups.projects}
-          onProjectOpen={this.handleSectionOpen.bind(this)}
-        />,
+        component: ProjectList,
+        props: {
+          ...this.state,
+          className: 'color-two projects',
+          icon: 'energy',
+          projects: this.pageGroups.projects,
+          onProjectOpen: this.handleSectionOpen,
+        },
       },
       {
         section: 'about-me',
-        component: <AboutMe
-          className="color-three about"
-          {...this.state}
-          {...this.pageGroups.root.about_me.data}
-        />,
+        component: AboutMe,
+        props: {
+          ...this.state,
+          className: 'color-three about',
+          icon: '',
+          data: this.pageGroups.root.about_me.data,
+        },
       },
       {
         section: 'medium',
-        component: <Medium
-          icon="book-open"
-          className="color-four"
-          {...this.state}
-        />,
+        component: Medium,
+        props: {
+          ...this.state,
+          className: 'color-four medium',
+          icon: 'book-open',
+        },
       },
       {
         section: 'contact',
-        component: <Contact
-          className="color-five contact"
-          {...this.state}
-          {...this.pageGroups.root.contact.data}
-          icon="envelope"
-        />,
+        component: Contact,
+        props: {
+          ...this.state,
+          ...this.pageGroups.root.contact.data,
+          className: 'color-five contact',
+          icon: 'envelope',
+        },
       },
     ]
 
@@ -128,11 +137,15 @@ class Index extends React.Component {
       <div style={{ position: 'relative' }}>
         <Menu sections={sitemap} />
         {sitemap.map(item => {
-          const el = React.createElement(item.component, {
-            key: item.section,
-            section_name: item.section,
-            ref: item.section,
-          })
+          const el = React.createElement(item.component, Object.assign(
+            {},
+            item.props,
+            {
+              key: item.section,
+              sectionName: item.section,
+              ref: item.section,
+            }
+          ))
           return el
         })}
         <Footer
